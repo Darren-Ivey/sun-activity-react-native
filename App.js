@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import SunActivityPage from './src/pages/SunActivityPage';
 
+
 export default class App extends Component {
   render() {
     return (

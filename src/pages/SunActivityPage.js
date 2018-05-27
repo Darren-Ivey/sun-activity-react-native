@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-
+import LocationAndDateForm from '../components/LocationAndDateForm/LocationAndDateForm';
 
 export default class SunActivityPage extends Component {
     render () {
@@ -9,6 +9,7 @@ export default class SunActivityPage extends Component {
                 <Text style={styles.pageSunActivityHeader}>
                     Sunrise and Sunset
                 </Text>
+                <LocationAndDateForm />
             </View>
         )
     }
