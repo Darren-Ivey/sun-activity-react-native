@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 import DatePicker from '../DatePicker/DatePicker';
+import moment from 'moment';
 
 export default class LocationAndDateForm extends Component {
 
@@ -8,7 +9,7 @@ export default class LocationAndDateForm extends Component {
         super(props);
         this.state = {
             postcode: '',
-            date: ''
+            date: moment()
         };
     }
 
