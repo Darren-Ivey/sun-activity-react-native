@@ -10,15 +10,15 @@ export default class LocationAndDateForm extends Component {
 
     render () {
         return (
-            <View style={styles.form}>
+            <View>
                 <Text style={styles.formHeader}>Search for your sunrise and sunset times</Text>
                 <View style={styles.field}>
                     <Text style={styles.fieldLabel}>Postcode</Text>
-                    <TextInput />
+                    <TextInput style={styles.fieldInput} />
                 </View>
                 <View style={styles.field}>
                     <Text style={styles.fieldLabel}>Date</Text>
-                    <TextInput />
+                    <TextInput style={styles.fieldInput} />
                 </View>
                 <View style={styles.footer}>
                     <Button onPress={this.handleSubmit} style={styles.footerButton} title="Submit form">
@@ -31,9 +31,11 @@ export default class LocationAndDateForm extends Component {
 }
 
 const styles = StyleSheet.create({
-    form: {
-    },
     formHeader: {
+        color: '#333',
+        marginTop: 24,
+        marginBottom: 16,
+        fontSize: 14,
     },
     fieldLabel: {
     },
@@ -44,5 +46,10 @@ const styles = StyleSheet.create({
     footer: {
     },
     field: {
+        marginBottom: 16
+    },
+    fieldInput: {
+        borderWidth: 1,
+        borderColor: 'black',
     }
 });

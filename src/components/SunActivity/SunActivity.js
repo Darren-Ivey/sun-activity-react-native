@@ -18,9 +18,15 @@ export default class SunActivity extends Component {
 
 const styles = StyleSheet.create({
     sunActivity: {
+        marginTop: 32,
+        borderWidth: 1,
+        borderColor: '#d9d9d9',
     },
     sunActivityResults: {
+        fontSize: 16,
+        margin: 16,
     },
     sunActivityResultsValue: {
+        fontWeight: '400'
     }
 });
