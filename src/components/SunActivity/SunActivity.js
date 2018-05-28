@@ -1,15 +1,23 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import moment from 'moment';
 
 export default class SunActivity extends Component {
     render () {
+
+        console.log("sunActivity: ",this.props.sunActivity )
+
         return (
             <View style={styles.sunActivity}>
                 <Text style={styles.sunActivityResults}>
-                    Your sunrise: <Text className={styles.sunActivityResultsValue}>sunrise</Text>
+                    Your sunrise: <Text className={styles.sunActivityResultsValue}>
+                    { this.props.sunActivity ? moment(this.props.sunActivity.sunrise).format("HH:mm"): undefined }
+                </Text>
                 </Text>
                 <Text style={styles.sunActivityResults}>
-                    Your sunset: <Text style={styles.sunActivityResultsValue}>sunset</Text>
+                    Your sunset: <Text style={styles.sunActivityResultsValue}>
+                    { this.props.sunActivity ? moment(this.props.sunActivity.sunset).format("HH:mm"): undefined }
+                </Text>
                 </Text>
             </View>
         )

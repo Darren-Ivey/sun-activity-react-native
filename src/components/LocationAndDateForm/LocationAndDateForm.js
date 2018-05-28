@@ -20,6 +20,10 @@ export default class LocationAndDateForm extends Component {
         this.setState({date});
     }
 
+    handleSubmit () {
+        this.props.getSunActivity(this.state.postcode, this.state.date)
+    }
+
     render () {
         return (
             <View style={styles.form}>
@@ -37,7 +41,7 @@ export default class LocationAndDateForm extends Component {
                 </View>
                 <View>
                     <View style={styles.footerButton}>
-                        <Text color="#841584" onPress={this.handleSubmit} style={styles.footerButtonText} title="Submit form">
+                        <Text color="#841584" onPress={()=> {this.handleSubmit()}} style={styles.footerButtonText} title="Submit form">
                             Find
                         </Text>
                     </View>
