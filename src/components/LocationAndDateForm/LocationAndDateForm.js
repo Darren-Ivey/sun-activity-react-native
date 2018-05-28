@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, TextInput, View, Button } from 'react-native';
-
+import { StyleSheet, Text, TextInput, View } from 'react-native';
+import DatePicker from '../DatePicker/DatePicker';
 
 export default class LocationAndDateForm extends Component {
 
@@ -12,6 +12,14 @@ export default class LocationAndDateForm extends Component {
         };
     }
 
+    updatePostCode (postcode) {
+        this.setState({postcode});
+    }
+
+    updateDate (date) {
+        this.setState({date});
+    }
+
     render () {
         return (
             <View style={styles.form}>
@@ -21,11 +29,11 @@ export default class LocationAndDateForm extends Component {
                     <TextInput
                         maxLength={8}
                         style={styles.fieldInput}
-                        onChangeText={(postcode) => this.setState({postcode})} />
+                        onChangeText={(postcode)=> {this.updatePostCode(postcode)}} />
                 </View>
                 <View style={styles.field}>
                     <Text>Date</Text>
-                    <TextInput style={styles.fieldInput} />
+                    <DatePicker updateDate={(date)=>{this.updateDate(date)}} />
                 </View>
                 <View>
                     <View style={styles.footerButton}>
