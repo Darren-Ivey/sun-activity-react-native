@@ -4,9 +4,6 @@ import moment from 'moment';
 
 export default class SunActivity extends Component {
     render () {
-
-        console.log("sunActivity: ",this.props.sunActivity )
-
         return (
             <View style={styles.sunActivity}>
                 <Text style={styles.sunActivityResults}>

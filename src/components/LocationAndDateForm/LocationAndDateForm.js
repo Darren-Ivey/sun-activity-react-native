@@ -24,6 +24,28 @@ export default class LocationAndDateForm extends Component {
         this.props.getSunActivity(this.state.postcode, this.state.date)
     }
 
+    renderInputError () {
+        return (
+            <View style={styles.error}>
+                <Text style={styles.errorMessage}>Sorry, we can't find a location for that postcode. Please check your postcode is valid or try another.</Text>
+            </View>
+        )
+    }
+
+    renderServiceError () {
+        return (
+            <View style={styles.error}>
+                <Text style={styles.errorMessage}>Please try again.</Text>
+            </View>
+        )
+    }
+
+    handleError () {
+        if (this.props.error) {
+            return this.props.error === 404 ? this.renderInputError() : this.renderServiceError();
+        }
+    }
+
     render () {
         return (
             <View style={styles.form}>
@@ -40,8 +62,9 @@ export default class LocationAndDateForm extends Component {
                     <DatePicker date={ this.state.date } updateDate={(date)=>{this.updateDate(date)}} />
                 </View>
                 <View>
+                    { this.handleError() }
                     <View style={styles.footerButton}>
-                        <Text color="#841584" onPress={()=> {this.handleSubmit()}} style={styles.footerButtonText} title="Submit form">
+                        <Text onPress={()=> {this.handleSubmit()}} style={styles.footerButtonText} title="Submit form">
                             Find
                         </Text>
                     </View>
@@ -90,5 +113,11 @@ const styles = StyleSheet.create({
         borderRadius: 2,
         fontSize: 12,
         maxWidth: 320
+    },
+    error: {
+        marginBottom: 24,
+    },
+    errorMessage: {
+        color: '#FF4500',
     }
 });

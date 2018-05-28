@@ -13,8 +13,7 @@ const getOptions = {
     }
 };
 
-export const fetchCoordinates = (postcode) => {
-    return fetch(`https://api.postcodes.io/postcodes/${ postcode }`, getOptions)
+export const fetchCoordinates = (postcode) =>
+    fetch(`https://api.postcodes.io/postcodes/${ postcode }`, getOptions)
         .then(catchError)
         .then(r => r.json())
-};

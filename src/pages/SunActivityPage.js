@@ -8,21 +8,30 @@ import moment from 'moment';
 
 export default class SunActivityPage extends Component {
 
-    constructor (props) {
+    constructor(props) {
         super(props);
         this.state = {
-            sunActivity: undefined
+            sunActivity: undefined,
+            error: undefined
         };
     }
 
     getSunActivity (postcode, date) {
         fetchCoordinates(postcode)
             .then((response) => {
-                const formattedDate = moment(date).toDate();
-                const { latitude, longitude } = response.result;
-                const sunActivity = SunCalc.getTimes(formattedDate, latitude, longitude);
-                this.setState({sunActivity}, ()=> { console.log("state:",this.state.sunActivity) });
-        })
+                return {
+                    formattedDate: moment(date).toDate(),
+                    latitude: response.result.latitude,
+                    longitude: response.result.longitude
+                }
+            })
+            .then((data) => {
+                const sunActivity = SunCalc.getTimes(data.formattedDate, data.latitude, data.longitude);
+                this.setState({sunActivity});
+            })
+            .catch((error)=> {
+                this.setState({error});
+            })
     }
 
     render () {
@@ -31,7 +40,9 @@ export default class SunActivityPage extends Component {
                 <Text style={styles.pageSunActivityHeader}>
                     Sunrise and Sunset
                 </Text>
-                <LocationAndDateForm  getSunActivity={this.getSunActivity} />
+                <LocationAndDateForm
+                    error={this.state.error}
+                    getSunActivity={(postcode, date)=> { this.getSunActivity(postcode, date) }} />
                 <SunActivity sunActivity={this.state.sunActivity} />
             </View>
         )
