@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     },
     pageSunActivityHeader: {
         color: '#333',
-        fontWeight: '300',
+        fontSize: 20,
         paddingBottom: 8,
         marginTop: 24,
     }
