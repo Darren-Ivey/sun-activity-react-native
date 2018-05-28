@@ -4,8 +4,12 @@ import { StyleSheet, Text, TextInput, View, Button } from 'react-native';
 
 export default class LocationAndDateForm extends Component {
 
-    handleSubmit () {
-        console.log("Click!");
+    constructor(props) {
+        super(props);
+        this.state = {
+            postcode: '',
+            date: ''
+        };
     }
 
     render () {
@@ -14,7 +18,10 @@ export default class LocationAndDateForm extends Component {
                 <Text style={styles.formHeader}>Search for your sunrise and sunset times</Text>
                 <View style={styles.field}>
                     <Text>Postcode</Text>
-                    <TextInput maxLength={8} style={styles.fieldInput} />
+                    <TextInput
+                        maxLength={8}
+                        style={styles.fieldInput}
+                        onChangeText={(postcode) => this.setState({postcode})} />
                 </View>
                 <View style={styles.field}>
                     <Text>Date</Text>
