@@ -27,9 +27,12 @@ export default class SunActivityPage extends Component {
             })
             .then((data) => {
                 const sunActivity = SunCalc.getTimes(data.formattedDate, data.latitude, data.longitude);
-                this.setState({sunActivity});
+                this.setState({
+                    sunActivity,
+                    error: undefined
+                });
             })
-            .catch((error)=> {
+            .catch(({error})=> {
                 this.setState({error});
             })
     }

@@ -43,7 +43,8 @@ export default class LocationAndDateForm extends Component {
 
     handleError () {
         if (this.props.error) {
-            return this.props.error === 404 ? this.renderInputError() : this.renderServiceError();
+            console.log("Error: ", this.props.error)
+            return (this.props.error === 404 || this.props.error === 400) ? this.renderInputError() : this.renderServiceError();
         }
     }
 
