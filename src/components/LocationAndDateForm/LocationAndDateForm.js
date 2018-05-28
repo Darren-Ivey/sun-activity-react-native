@@ -33,7 +33,7 @@ export default class LocationAndDateForm extends Component {
                 </View>
                 <View style={styles.field}>
                     <Text>Date</Text>
-                    <DatePicker updateDate={(date)=>{this.updateDate(date)}} />
+                    <DatePicker date={ this.state.date } updateDate={(date)=>{this.updateDate(date)}} />
                 </View>
                 <View>
                     <View style={styles.footerButton}>
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     fieldInput: {
         borderWidth: 1,
         borderColor: '#d9d9d9',
-        padding: 4,
+        padding: 10,
         marginTop: 8,
         marginBottom: 8,
         borderRadius: 2,

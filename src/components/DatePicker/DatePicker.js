@@ -8,6 +8,7 @@ export default class MyDatePicker extends Component {
             <DatePicker
                 style={{width: '100%'}}
                 mode="date"
+                date={ this.props.date }
                 format="DD-MM-YYYY"
                 confirmBtnText="Confirm"
                 cancelBtnText="Cancel"
