@@ -160,8 +160,5 @@ const styles = StyleSheet.create({
     },
     errorMessage: {
         color: '#FF4500',
-    },
-    label: {
-
     }
 });
