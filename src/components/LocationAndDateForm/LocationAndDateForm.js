@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 import DatePicker from '../DatePicker/DatePicker';
+import CheckBox from 'react-native-check-box';
 import moment from 'moment';
 
 export default class LocationAndDateForm extends Component {
@@ -9,7 +10,8 @@ export default class LocationAndDateForm extends Component {
         super(props);
         this.state = {
             postcode: '',
-            date: moment()
+            date: moment(),
+            useLocation: false
         };
     }
 
@@ -22,7 +24,7 @@ export default class LocationAndDateForm extends Component {
     }
 
     handleSubmit () {
-        this.props.getSunActivity(this.state.postcode, this.state.date)
+        this.props.getSunActivity(this.state.useLocation, this.state.postcode, this.state.date)
     }
 
     renderInputError () {
@@ -39,6 +41,13 @@ export default class LocationAndDateForm extends Component {
                 <Text style={styles.errorMessage}>Please try again.</Text>
             </View>
         )
+    }
+
+    handleCheckBox () {
+        this.setState({
+            postcode: '',
+            useLocation: !this.state.useLocation
+        })
     }
 
     handleFetchCoordinatesError () {
@@ -64,10 +73,21 @@ export default class LocationAndDateForm extends Component {
                 <Text style={styles.formHeader}>Search for your sunrise and sunset times</Text>
                 <View style={styles.field}>
                     <Text>Postcode</Text>
-                    <TextInput
-                        maxLength={8}
-                        style={styles.fieldInput}
-                        onChangeText={(postcode)=> {this.updatePostCode(postcode)}} />
+                    {
+                        !this.state.useLocation &&
+                        <TextInput
+                            editable={!this.state.useLocation}
+                            value={!this.state.useLocation ? this.state.postcode : ''}
+                            maxLength={8}
+                            style={styles.fieldInput}
+                            onChangeText={(postcode) => {this.updatePostCode(postcode)}} />
+                    }
+                </View>
+                <View style={styles.field}>
+                    <CheckBox
+                        rightText={'Use my location'}
+                        onClick={()=> {this.handleCheckBox()}}
+                        isChecked={this.state.useLocation} />
                 </View>
                 <View style={styles.field}>
                     <Text>Date</Text>
@@ -132,5 +152,8 @@ const styles = StyleSheet.create({
     },
     errorMessage: {
         color: '#FF4500',
+    },
+    label: {
+
     }
 });

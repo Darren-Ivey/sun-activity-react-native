@@ -21,8 +21,19 @@ export default class SunActivityPage extends Component {
         return SunCalc.getTimes(date, latitude, longitude);
     }
 
-    getSunActivity (postcode, date) {
-        if (postcode) {
+    getSunActivity (useLocation, postcode, date) {
+        if (useLocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    this.setState({
+                        sunActivity: this.sunActivity(moment(date).toDate(), position.coords.latitude, position.coords.longitude),
+                        fetchCoordinatesError: undefined,
+                        getCurrentPositionError: undefined
+                    });
+                },
+                (error) => this.setState({ getCurrentPositionError: error })
+            );
+        } else {
             fetchCoordinates(postcode)
                 .then((response) => {
                     return {
@@ -41,17 +52,6 @@ export default class SunActivityPage extends Component {
                 .catch(({error}) => {
                     this.setState({fetchCoordinatesError: error});
                 })
-        } else {
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    this.setState({
-                        sunActivity: this.sunActivity(moment(date).toDate(), position.coords.latitude, position.coords.longitude),
-                        fetchCoordinatesError: undefined,
-                        getCurrentPositionError: undefined
-                    });
-                },
-                (error) => this.setState({ getCurrentPositionError: error })
-            );
         }
     }
 
