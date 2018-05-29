@@ -12,29 +12,47 @@ export default class SunActivityPage extends Component {
         super(props);
         this.state = {
             sunActivity: undefined,
-            error: undefined
+            fetchCoordinatesError: undefined,
+            getCurrentPositionError: undefined
         };
     }
 
+    sunActivity (date, latitude, longitude) {
+        return SunCalc.getTimes(date, latitude, longitude);
+    }
+
     getSunActivity (postcode, date) {
-        fetchCoordinates(postcode)
-            .then((response) => {
-                return {
-                    formattedDate: moment(date).toDate(),
-                    latitude: response.result.latitude,
-                    longitude: response.result.longitude
-                }
-            })
-            .then((data) => {
-                const sunActivity = SunCalc.getTimes(data.formattedDate, data.latitude, data.longitude);
-                this.setState({
-                    sunActivity,
-                    error: undefined
-                });
-            })
-            .catch(({error})=> {
-                this.setState({error});
-            })
+        if (postcode) {
+            fetchCoordinates(postcode)
+                .then((response) => {
+                    return {
+                        formattedDate: moment(date).toDate(),
+                        latitude: response.result.latitude,
+                        longitude: response.result.longitude
+                    }
+                })
+                .then((data) => {
+                    this.setState({
+                        sunActivity: this.sunActivity(data.formattedDate, data.latitude, data.longitude),
+                        fetchCoordinatesError: undefined,
+                        getCurrentPositionError: undefined
+                    });
+                })
+                .catch(({error}) => {
+                    this.setState({fetchCoordinatesError: error});
+                })
+        } else {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    this.setState({
+                        sunActivity: this.sunActivity(moment(date).toDate(), position.coords.latitude, position.coords.longitude),
+                        fetchCoordinatesError: undefined,
+                        getCurrentPositionError: undefined
+                    });
+                },
+                (error) => this.setState({ getCurrentPositionError: error })
+            );
+        }
     }
 
     render () {
@@ -44,7 +62,8 @@ export default class SunActivityPage extends Component {
                     Sunrise and Sunset
                 </Text>
                 <LocationAndDateForm
-                    error={this.state.error}
+                    fetchCoordinatesError={this.state.fetchCoordinatesError}
+                    getCurrentPositionError={this.state.getCurrentPositionError}
                     getSunActivity={(postcode, date)=> { this.getSunActivity(postcode, date) }} />
                 <SunActivity sunActivity={this.state.sunActivity} />
             </View>

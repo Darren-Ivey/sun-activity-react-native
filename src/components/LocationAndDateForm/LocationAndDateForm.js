@@ -41,10 +41,20 @@ export default class LocationAndDateForm extends Component {
         )
     }
 
-    handleError () {
-        if (this.props.error) {
-            console.log("Error: ", this.props.error)
-            return (this.props.error === 404 || this.props.error === 400) ? this.renderInputError() : this.renderServiceError();
+    handleFetchCoordinatesError () {
+        const { fetchCoordinatesError } = this.props;
+        if (fetchCoordinatesError) {
+            return (fetchCoordinatesError === 404 || fetchCoordinatesError === 400) ? this.renderInputError() : this.renderServiceError();
+        }
+    }
+
+    renderGetCurrentPositionError () {
+        if (this.props.getCurrentPositionError) {
+            return (
+                <View style={styles.error}>
+                    <Text style={styles.errorMessage}>Unable to access your location</Text>
+                </View>
+            )
         }
     }
 
@@ -64,7 +74,8 @@ export default class LocationAndDateForm extends Component {
                     <DatePicker date={ this.state.date } updateDate={(date)=>{this.updateDate(date)}} />
                 </View>
                 <View>
-                    { this.handleError() }
+                    {this.handleFetchCoordinatesError()}
+                    {this.renderGetCurrentPositionError()}
                     <View style={styles.footerButton}>
                         <Text onPress={()=> {this.handleSubmit()}} style={styles.footerButtonText} title="Submit form">
                             Find
