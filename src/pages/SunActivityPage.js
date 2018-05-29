@@ -56,17 +56,21 @@ export default class SunActivityPage extends Component {
     }
 
     render () {
+        const { sunActivity, fetchCoordinatesError, getCurrentPositionError } = this.state
         return (
             <View style={styles.pageSunActivity}>
                 <Text style={styles.pageSunActivityHeader}>
                     Sunrise and Sunset
                 </Text>
                 <LocationAndDateForm
-                    fetchCoordinatesError={this.state.fetchCoordinatesError}
-                    getCurrentPositionError={this.state.getCurrentPositionError}
+                    fetchCoordinatesError={fetchCoordinatesError}
+                    getCurrentPositionError={getCurrentPositionError}
                     getSunActivityPostCode={(postcode, date)=> {this.getSunActivityPostCode(postcode, date)}}
                     getSunActivityUserLocation={(date)=> {this.getSunActivityUserLocation(date)}} />
-                <SunActivity sunActivity={this.state.sunActivity} />
+                <SunActivity
+                    fetchCoordinatesError={fetchCoordinatesError}
+                    getCurrentPositionError={getCurrentPositionError}
+                    sunActivity={sunActivity} />
             </View>
         )
     }

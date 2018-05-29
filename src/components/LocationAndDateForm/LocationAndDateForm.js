@@ -25,9 +25,6 @@ export default class LocationAndDateForm extends Component {
 
     handleSubmit () {
         const { useLocation, postcode, date } = this.state;
-
-        console.log( useLocation, postcode, date)
-
         if (useLocation) {
             this.props.getSunActivityUserLocation(date)
         } else {
@@ -76,16 +73,17 @@ export default class LocationAndDateForm extends Component {
     }
 
     render () {
+        const { postcode, date, useLocation } = this.state;
         return (
             <View style={styles.form}>
                 <Text style={styles.formHeader}>Search for your sunrise and sunset times</Text>
                 <View style={styles.field}>
                     <Text>Postcode</Text>
                     {
-                        !this.state.useLocation &&
+                        !useLocation &&
                         <TextInput
-                            editable={!this.state.useLocation}
-                            value={!this.state.useLocation ? this.state.postcode : ''}
+                            editable={!useLocation}
+                            value={!useLocation ? postcode : ''}
                             maxLength={8}
                             style={styles.fieldInput}
                             onChangeText={(postcode) => {this.updatePostCode(postcode)}} />
@@ -96,11 +94,11 @@ export default class LocationAndDateForm extends Component {
                         checkBoxColor={'#C7C2BA'}
                         rightText={'Use my location'}
                         onClick={()=> {this.handleCheckBox()}}
-                        isChecked={this.state.useLocation} />
+                        isChecked={useLocation} />
                 </View>
                 <View style={styles.field}>
                     <Text>Date</Text>
-                    <DatePicker date={ this.state.date } updateDate={(date)=>{this.updateDate(date)}} />
+                    <DatePicker date={date} updateDate={(date)=>{this.updateDate(date)}} />
                 </View>
                 <View>
                     {this.handleFetchCoordinatesError()}

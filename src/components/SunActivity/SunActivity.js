@@ -4,19 +4,21 @@ import moment from 'moment';
 
 export default class SunActivity extends Component {
     render () {
+        const { sunActivity } = this.props;
         return (
+            (sunActivity) ?
             <View style={styles.sunActivity}>
                 <Text style={styles.sunActivityResults}>
                     Your sunrise: <Text className={styles.sunActivityResultsValue}>
-                    { this.props.sunActivity ? moment(this.props.sunActivity.sunrise).format("HH:mm"): undefined }
+                    { sunActivity ? moment(sunActivity.sunrise).format("HH:mm"): undefined }
                 </Text>
                 </Text>
                 <Text style={styles.sunActivityResults}>
                     Your sunset: <Text style={styles.sunActivityResultsValue}>
-                    { this.props.sunActivity ? moment(this.props.sunActivity.sunset).format("HH:mm"): undefined }
+                    { sunActivity ? moment(sunActivity.sunset).format("HH:mm"): undefined }
                 </Text>
                 </Text>
-            </View>
+            </View> : null
         )
     }
 };
