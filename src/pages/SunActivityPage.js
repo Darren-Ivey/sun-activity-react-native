@@ -21,42 +21,39 @@ export default class SunActivityPage extends Component {
         return SunCalc.getTimes(date, latitude, longitude);
     }
 
-    getSunActivity (userLocation, postcode, date) {
+    getSunActivityUserLocation (date) {
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                this.setState({
+                    sunActivity: this.sunActivity(moment(date).toDate(), position.coords.latitude, position.coords.longitude),
+                    fetchCoordinatesError: undefined,
+                    getCurrentPositionError: undefined
+                });
+            },
+            (error) => this.setState({ getCurrentPositionError: error })
+        );
+    }
 
-        const formattedDate = moment(date).toDate();
-
-        if (userLocation) {
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    this.setState({
-                        sunActivity: this.sunActivity(formattedDate, position.coords.latitude, position.coords.longitude),
-                        fetchCoordinatesError: undefined,
-                        getCurrentPositionError: undefined
-                    });
-                },
-                (error) => this.setState({ getCurrentPositionError: error })
-            );
-        } else {
-            fetchCoordinates(postcode)
-                .then((response) => {
-                    return {
-                        formattedDate: formattedDate,
-                        latitude: response.result.latitude,
-                        longitude: response.result.longitude
-                    }
-                })
-                .then((data) => {
-                    console.log("Geo: ", data.latitude, data.longitude);
-                    this.setState({
-                        sunActivity: this.sunActivity(data.formattedDate, data.latitude, data.longitude),
-                        fetchCoordinatesError: undefined,
-                        getCurrentPositionError: undefined
-                    });
-                })
-                .catch(({error}) => {
-                    this.setState({fetchCoordinatesError: error});
-                })
-        }
+    getSunActivityPostCode (postcode, date) {
+        console.log("date: " ,date)
+        fetchCoordinates(postcode)
+            .then((response) => {
+                return {
+                    formattedDate: moment(date).toDate(),
+                    latitude: response.result.latitude,
+                    longitude: response.result.longitude
+                }
+            })
+            .then((data) => {
+                this.setState({
+                    sunActivity: this.sunActivity(data.formattedDate, data.latitude, data.longitude),
+                    fetchCoordinatesError: undefined,
+                    getCurrentPositionError: undefined
+                });
+            })
+            .catch(({error}) => {
+                this.setState({fetchCoordinatesError: error});
+            })
     }
 
     render () {
@@ -68,7 +65,8 @@ export default class SunActivityPage extends Component {
                 <LocationAndDateForm
                     fetchCoordinatesError={this.state.fetchCoordinatesError}
                     getCurrentPositionError={this.state.getCurrentPositionError}
-                    getSunActivity={(postcode, date)=> { this.getSunActivity(postcode, date) }} />
+                    getSunActivityPostCode={(postcode, date)=> {this.getSunActivityPostCode(postcode, date)}}
+                    getSunActivityUserLocation={(date)=> {this.getSunActivityUserLocation(date)}} />
                 <SunActivity sunActivity={this.state.sunActivity} />
             </View>
         )

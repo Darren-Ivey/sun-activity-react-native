@@ -24,7 +24,15 @@ export default class LocationAndDateForm extends Component {
     }
 
     handleSubmit () {
-        this.props.getSunActivity(this.state.useLocation, this.state.postcode, this.state.date)
+        const { useLocation, postcode, date } = this.state;
+
+        console.log( useLocation, postcode, date)
+
+        if (useLocation) {
+            this.props.getSunActivityUserLocation(date)
+        } else {
+            this.props.getSunActivityPostCode(postcode, date)
+        }
     }
 
     renderInputError () {
@@ -85,6 +93,7 @@ export default class LocationAndDateForm extends Component {
                 </View>
                 <View style={styles.field}>
                     <CheckBox
+                        checkBoxColor={'#C7C2BA'}
                         rightText={'Use my location'}
                         onClick={()=> {this.handleCheckBox()}}
                         isChecked={this.state.useLocation} />
@@ -146,6 +155,9 @@ const styles = StyleSheet.create({
         borderRadius: 2,
         fontSize: 12,
         maxWidth: 320
+    },
+    fieldCheckBox: {
+        color: '#d9d9d9',
     },
     error: {
         marginBottom: 24,
