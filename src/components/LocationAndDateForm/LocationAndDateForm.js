@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
+import Button from 'react-native-button';
 import DatePicker from '../DatePicker/DatePicker';
 import CheckBox from 'react-native-check-box';
 import moment from 'moment';
@@ -103,11 +104,11 @@ export default class LocationAndDateForm extends Component {
                 <View>
                     {this.handleFetchCoordinatesError()}
                     {this.renderGetCurrentPositionError()}
-                    <View style={styles.footerButton}>
-                        <Text onPress={()=> {this.handleSubmit()}} style={styles.footerButtonText} title="Submit form">
-                            Find
-                        </Text>
-                    </View>
+                    <Button
+                        style={styles.footerButton}
+                        onPress={() => this.handleSubmit()}>
+                        Find
+                    </Button>
                 </View>
             </View>
         )
@@ -133,13 +134,10 @@ const styles = StyleSheet.create({
         borderRadius: 4,
         backgroundColor: '#61b2a7',
         width: 'auto',
-        alignSelf: 'flex-start'
-    },
-    footerButtonText: {
         fontWeight: '400',
         fontSize: 14,
         color: 'white',
-        alignSelf: 'center'
+        alignSelf: 'flex-start'
     },
     field: {
         marginBottom: 16
