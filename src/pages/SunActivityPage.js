@@ -21,12 +21,15 @@ export default class SunActivityPage extends Component {
         return SunCalc.getTimes(date, latitude, longitude);
     }
 
-    getSunActivity (useLocation, postcode, date) {
-        if (useLocation) {
+    getSunActivity (userLocation, postcode, date) {
+
+        const formattedDate = moment(date).toDate();
+
+        if (userLocation) {
             navigator.geolocation.getCurrentPosition(
                 (position) => {
                     this.setState({
-                        sunActivity: this.sunActivity(moment(date).toDate(), position.coords.latitude, position.coords.longitude),
+                        sunActivity: this.sunActivity(formattedDate, position.coords.latitude, position.coords.longitude),
                         fetchCoordinatesError: undefined,
                         getCurrentPositionError: undefined
                     });
@@ -37,12 +40,13 @@ export default class SunActivityPage extends Component {
             fetchCoordinates(postcode)
                 .then((response) => {
                     return {
-                        formattedDate: moment(date).toDate(),
+                        formattedDate: formattedDate,
                         latitude: response.result.latitude,
                         longitude: response.result.longitude
                     }
                 })
                 .then((data) => {
+                    console.log("Geo: ", data.latitude, data.longitude);
                     this.setState({
                         sunActivity: this.sunActivity(data.formattedDate, data.latitude, data.longitude),
                         fetchCoordinatesError: undefined,
