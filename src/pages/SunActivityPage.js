@@ -35,7 +35,6 @@ export default class SunActivityPage extends Component {
     }
 
     getSunActivityPostCode (postcode, date) {
-        console.log("date: " ,date)
         fetchCoordinates(postcode)
             .then((response) => {
                 return {
